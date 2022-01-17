@@ -163,7 +163,7 @@ export const markdownItWithFoamTags = (
   });
 };
 
-export const markdownItWithAgoraInclusion = (md: markdownit) => {
+export const markdownItWithAgoraInclusion = async (md: markdownit) => {
   return md.use(markdownItRegex, {
     name: 'agora-inclusion',
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
