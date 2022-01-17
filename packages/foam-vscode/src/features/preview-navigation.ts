@@ -32,6 +32,7 @@ const feature: FoamFeature = {
         fromVsCodeUri(editor.document.uri),
         editor.document.getText()
       );
+      console.log(note.title);
       getAgoraData(note.title);
     });
     return {
