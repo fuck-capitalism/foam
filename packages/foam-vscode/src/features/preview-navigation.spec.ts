@@ -11,6 +11,7 @@ import {
   markdownItWithFoamLinks,
   markdownItWithFoamTags,
   markdownItWithNoteInclusion,
+  markdownItWithAgoraInclusion,
 } from './preview-navigation';
 
 describe('Link generation in preview', () => {
@@ -138,6 +139,15 @@ This is the third section of note D
 </p>
 </p>
 `
+    );
+  });
+});
+
+describe('Displaying pushed data for note in the agora', () => {
+  const md = markdownItWithAgoraInclusion(MarkdownIt());
+  it('should render data pushed from the agora', () => {
+    expect(md.render('[[agora pull]] [[vera]]')).toMatch(
+      `test data from the agora`
     );
   });
 });

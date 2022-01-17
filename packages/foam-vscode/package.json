@@ -421,6 +421,7 @@
     "vscode-test": "^1.3.0"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "dateformat": "^3.0.3",
     "detect-newline": "^3.1.0",
     "fast-array-diff": "^1.0.1",

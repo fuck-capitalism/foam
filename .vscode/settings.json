@@ -27,6 +27,6 @@
   "jest.autoRun": "off",
   "jest.rootPath": "packages/foam-vscode",
   "jest.jestCommandLine": "yarn jest",
-  "gitdoc.enabled": false,
+  "gitdoc.enabled": true,
   "search.mode": "reuseEditor"
 }

@@ -15,7 +15,7 @@ export async function activate(context: ExtensionContext) {
   exposeLogger(context, logger);
 
   try {
-    Logger.info('Starting Foam');
+    Logger.info('Starting Foam - VeraFork');
 
     // Prepare Foam
     const dataStore = new FileDataStore();

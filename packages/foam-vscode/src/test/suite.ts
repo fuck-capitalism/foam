@@ -48,7 +48,7 @@ export function run(): Promise<void> {
           rootDir,
           roots: ['<rootDir>/src'],
           runInBand: true,
-          testRegex: '\\.(test|spec)\\.ts$',
+          testRegex: `\\preview-navigation.(test|spec)\\.ts$`,
           testEnvironment: '<rootDir>/src/test/support/vscode-environment.js',
           setupFiles: ['<rootDir>/src/test/support/jest-setup.ts'],
           testTimeout: 30000,

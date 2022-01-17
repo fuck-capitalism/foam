@@ -7,6 +7,7 @@ import { FoamWorkspace } from '../core/model/workspace';
 import { Logger } from '../core/utils/log';
 import { toVsCodeUri } from '../utils/vsc-utils';
 import { Resource } from '../core/model/note';
+import axios from 'axios';
 
 const ALIAS_DIVIDER_CHAR = '|';
 const refsStack: string[] = [];
@@ -23,6 +24,7 @@ const feature: FoamFeature = {
         return [
           markdownItWithFoamTags,
           markdownItWithNoteInclusion,
+          markdownItWithAgoraInclusion,
           markdownItWithFoamLinks,
           markdownItWithRemoveLinkReferences,
         ].reduce((acc, extension) => extension(acc, foam.workspace), md);
@@ -142,6 +144,28 @@ export const markdownItWithFoamTags = (
         );
         return getFoamTag(tag);
       }
+    },
+  });
+};
+
+export const markdownItWithAgoraInclusion = (md: markdownit) => {
+  return md.use(markdownItRegex, {
+    name: 'agora-inclusion',
+    regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
+    replace: async (wikilink: string) => {
+      const data = await axios.get(
+        `https://localhost:5000/pull/${wikilink}.json`
+      );
+
+      const pushed = data['pushed_nodes'];
+      const links = [];
+      for (const node in pushed) {
+        links.push(`<div>
+        <div>Uri: ${node['uri']}</div>
+        <div>Content: ${node['content']}</div>
+        </div>`);
+      }
+      return links.join('\n');
     },
   });
 };
