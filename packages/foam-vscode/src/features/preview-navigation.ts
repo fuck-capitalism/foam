@@ -28,13 +28,12 @@ const feature: FoamFeature = {
     foamPromise: Promise<Foam>
   ) => {
     const foam = await foamPromise;
-    vscode.window.onDidChangeActiveTextEditor(async editor => {
+    vscode.window.onDidChangeActiveTextEditor(editor => {
       const note = foam.services.parser.parse(
         fromVsCodeUri(editor.document.uri),
         editor.document.getText()
       );
-      await getAgoraData(note.title);
-      console.log(agoraData);
+      getAgoraData(note.title).then(() => console.log(agoraData));
     });
     return {
       extendMarkdownIt: (md: markdownit) => {
