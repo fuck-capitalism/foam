@@ -423,6 +423,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "dateformat": "^3.0.3",
+    "decko": "^1.2.0",
     "detect-newline": "^3.1.0",
     "fast-array-diff": "^1.0.1",
     "glob": "^7.1.6",

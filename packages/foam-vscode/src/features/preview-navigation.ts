@@ -7,11 +7,19 @@ import { FoamWorkspace } from '../core/model/workspace';
 import { Logger } from '../core/utils/log';
 import { toVsCodeUri } from '../utils/vsc-utils';
 import { Resource } from '../core/model/note';
-import regex from '../utils/regex';
 import axios from 'axios';
+import { memoize } from 'lodash';
+import { fromVsCodeUri } from '../utils/vsc-utils';
 
 const ALIAS_DIVIDER_CHAR = '|';
 const refsStack: string[] = [];
+
+const getAgoraData = memoize(async (wikilink: string) => {
+  const { data } = await axios.get(
+    `http://localhost:5000/pull/${wikilink}.json`
+  );
+  return data;
+});
 
 const feature: FoamFeature = {
   activate: async (
@@ -19,7 +27,13 @@ const feature: FoamFeature = {
     foamPromise: Promise<Foam>
   ) => {
     const foam = await foamPromise;
-
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+      const note = foam.services.parser.parse(
+        fromVsCodeUri(editor.document.uri),
+        editor.document.getText()
+      );
+      getAgoraData(note.title);
+    });
     return {
       extendMarkdownIt: (md: markdownit) => {
         return [
@@ -150,14 +164,12 @@ export const markdownItWithFoamTags = (
 };
 
 export const markdownItWithAgoraInclusion = (md: markdownit) => {
-  return md.use(regex, {
+  return md.use(markdownItRegex, {
     name: 'agora-inclusion',
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
-    replace: async (wikilink: string) => {
-      const data = await axios.get(
-        `https://localhost:5000/pull/${wikilink}.json`
-      );
-
+    replace: (wikilink: string) => {
+      const data = getAgoraData(wikilink);
+      console.log(data, wikilink);
       const pushed = data['pushed_nodes'];
       const links = [];
       for (const node in pushed) {
@@ -166,8 +178,7 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
         <div>Content: ${node['content']}</div>
         </div>`);
       }
-      // return links.join('\n');
-      return 'yolo';
+      return links.join('\n');
     },
   });
 };
