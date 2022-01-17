@@ -14,7 +14,7 @@ import { fromVsCodeUri } from '../utils/vsc-utils';
 const ALIAS_DIVIDER_CHAR = '|';
 const refsStack: string[] = [];
 
-const getAgoraData = memoize(async (wikilink: string) => {
+export const getAgoraData = memoize(async (wikilink: string) => {
   const { data } = await axios.get(
     `http://localhost:5000/pull/${wikilink}.json`
   );
