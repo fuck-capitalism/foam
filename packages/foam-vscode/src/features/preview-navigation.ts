@@ -152,10 +152,8 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
   return md.use(markdownItRegex, {
     name: 'agora-inclusion',
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
-    replace: async (wikilink: string) => {
-      const data = await axios.get(
-        `https://localhost:5000/pull/${wikilink}.json`
-      );
+    replace: (wikilink: string) => {
+      const data = axios.get(`https://localhost:5000/pull/${wikilink}.json`);
 
       const pushed = data['pushed_nodes'];
       const links = [];
