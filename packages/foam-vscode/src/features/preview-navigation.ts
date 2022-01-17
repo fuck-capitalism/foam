@@ -7,6 +7,7 @@ import { FoamWorkspace } from '../core/model/workspace';
 import { Logger } from '../core/utils/log';
 import { toVsCodeUri } from '../utils/vsc-utils';
 import { Resource } from '../core/model/note';
+import regex from '../utils/regex';
 import axios from 'axios';
 
 const ALIAS_DIVIDER_CHAR = '|';
@@ -149,11 +150,13 @@ export const markdownItWithFoamTags = (
 };
 
 export const markdownItWithAgoraInclusion = (md: markdownit) => {
-  return md.use(markdownItRegex, {
+  return md.use(regex, {
     name: 'agora-inclusion',
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
-    replace: (wikilink: string) => {
-      const data = axios.get(`https://localhost:5000/pull/${wikilink}.json`);
+    replace: async (wikilink: string) => {
+      const data = await axios.get(
+        `https://localhost:5000/pull/${wikilink}.json`
+      );
 
       const pushed = data['pushed_nodes'];
       const links = [];
@@ -163,7 +166,8 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
         <div>Content: ${node['content']}</div>
         </div>`);
       }
-      return links.join('\n');
+      // return links.join('\n');
+      return 'yolo';
     },
   });
 };
