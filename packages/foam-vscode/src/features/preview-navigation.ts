@@ -8,18 +8,19 @@ import { Logger } from '../core/utils/log';
 import { toVsCodeUri } from '../utils/vsc-utils';
 import { Resource } from '../core/model/note';
 import axios from 'axios';
-import { memoize } from 'lodash';
 import { fromVsCodeUri } from '../utils/vsc-utils';
 
 const ALIAS_DIVIDER_CHAR = '|';
 const refsStack: string[] = [];
 
-export const getAgoraData = memoize(async (wikilink: string) => {
+export const agoraData = {};
+
+export const getAgoraData = async (wikilink: string) => {
   const { data } = await axios.get(
     `http://localhost:5000/pull/${wikilink}.json`
   );
-  return data;
-});
+  agoraData[wikilink] = data;
+};
 
 const feature: FoamFeature = {
   activate: async (
@@ -32,7 +33,6 @@ const feature: FoamFeature = {
         fromVsCodeUri(editor.document.uri),
         editor.document.getText()
       );
-      console.log(note.title);
       getAgoraData(note.title);
     });
     return {
@@ -169,7 +169,7 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
     name: 'agora-inclusion',
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
     replace: (wikilink: string) => {
-      const data = getAgoraData(wikilink);
+      const data = agoraData[wikilink];
       console.log(data, wikilink);
       const pushed = data['pushed_nodes'];
       const links = [];
