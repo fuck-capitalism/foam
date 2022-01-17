@@ -175,6 +175,7 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
       const links = [];
       for (const node in pushed) {
         links.push(`<div>
+        <di>${JSON.stringify(node)}</div>
         <div>Uri: ${node['uri']}</div>
         <div>Content: ${node['content']}</div>
         </div>`);
