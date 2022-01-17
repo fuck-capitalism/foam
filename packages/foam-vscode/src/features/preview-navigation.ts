@@ -19,7 +19,7 @@ export const getAgoraData = async (wikilink: string) => {
   const { data } = await axios.get(
     `http://localhost:5000/pull/${wikilink}.json`
   );
-  Logger.info(data);
+  console.log('DATA', data);
   agoraData[wikilink] = data;
 };
 
@@ -34,7 +34,7 @@ const feature: FoamFeature = {
         fromVsCodeUri(editor.document.uri),
         editor.document.getText()
       );
-      getAgoraData(note.title).then(() => Logger.info(agoraData));
+      getAgoraData(note.title).then(() => console.log('AGORA DATA', agoraData));
     });
     return {
       extendMarkdownIt: (md: markdownit) => {
@@ -170,9 +170,9 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
     name: 'agora-inclusion',
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
     replace: (wikilink: string) => {
-      Logger.info(agoraData);
+      console.log(agoraData);
       const data = agoraData[wikilink];
-      Logger.info(data, wikilink);
+      console.log(data, wikilink);
       const pushed = data['pushed_nodes'];
       const links = [];
       for (const node in pushed) {
