@@ -19,6 +19,7 @@ export const getAgoraData = async (wikilink: string) => {
   const { data } = await axios.get(
     `http://localhost:5000/pull/${wikilink}.json`
   );
+  Logger.info(data);
   agoraData[wikilink] = data;
 };
 
@@ -33,7 +34,7 @@ const feature: FoamFeature = {
         fromVsCodeUri(editor.document.uri),
         editor.document.getText()
       );
-      getAgoraData(note.title).then(() => console.log(agoraData));
+      getAgoraData(note.title).then(() => Logger.info(agoraData));
     });
     return {
       extendMarkdownIt: (md: markdownit) => {
