@@ -173,6 +173,7 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
       const data = agoraData[wikilink];
       console.log('DATA', data);
       const pushed = data['pushed_nodes'];
+      console.log('PUSHED', pushed);
       const links = [];
       for (const node in pushed) {
         console.log('NODE', node);
