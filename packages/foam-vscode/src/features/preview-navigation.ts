@@ -21,7 +21,7 @@ export const getAgoraData = async (wikilink: string) => {
   );
   console.log(JSON.stringify(data));
   console.log('DATA', data);
-  agoraData[wikilink] = data;
+  agoraData[wikilink] = data['pushed_nodes'];
 };
 
 const feature: FoamFeature = {
@@ -172,11 +172,8 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
     replace: (wikilink: string) => {
       const data = agoraData[wikilink];
-      console.log('DATA', data);
-      const pushed = data['pushed_nodes'];
-      console.log('PUSHED', pushed);
       const links = [];
-      for (const node in pushed) {
+      for (const node in data) {
         console.log('NODE', node);
         links.push(`<div>
         <di>${JSON.stringify(node)}</div>
