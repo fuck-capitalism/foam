@@ -19,6 +19,7 @@ export const getAgoraData = async (wikilink: string) => {
   const { data } = await axios.get(
     `http://localhost:5000/pull/${wikilink}.json`
   );
+  console.log(JSON.stringify(data));
   console.log('DATA', data);
   agoraData[wikilink] = data;
 };
