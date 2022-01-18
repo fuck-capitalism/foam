@@ -172,11 +172,10 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
     regex: /\[\[agora pull\]\] \[\[([^[\]]+?)\]\]/,
     replace: (wikilink: string) => {
       const data = agoraData[wikilink];
+      console.log('DATA', data);
       const links = [];
-      for (const node in data) {
-        console.log('NODE', node);
+      for (const node of data) {
         links.push(`<div>
-        <di>${JSON.stringify(node)}</div>
         <div>Uri: ${node['uri']}</div>
         <div>Content: ${node['content']}</div>
         </div>`);
