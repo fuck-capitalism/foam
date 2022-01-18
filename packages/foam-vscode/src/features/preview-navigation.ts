@@ -177,10 +177,11 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
       console.log('DATA', data);
       const links = [];
       for (const node of data) {
+        let markdown = md.render(node.content.replace(/<[^>]+>/g, ''));
         // const markdown = turndownService.turndown(node.content);
         links.push(`<div>
-        <div>Uri: ${node['uri']}</div>
-        <div>Content: ${node.content.replace(/<[^>]+>/g, '')}</div>
+        <div>Uri: <a href='http://localhost:5000/@${node.user}/${node.source_wikilink}'>${node.user}/${node.source_wikilink}</a></div>
+        <div>Content: ${markdown}</div>
         </div>`);
       }
       return links.join('\n');
