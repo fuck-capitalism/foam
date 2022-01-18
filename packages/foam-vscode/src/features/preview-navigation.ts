@@ -9,7 +9,7 @@ import { toVsCodeUri } from '../utils/vsc-utils';
 import { Resource } from '../core/model/note';
 import axios from 'axios';
 import { fromVsCodeUri } from '../utils/vsc-utils';
-import { turndownService } from 'turndown';
+import turndownService from 'turndown';
 
 const ALIAS_DIVIDER_CHAR = '|';
 const refsStack: string[] = [];
