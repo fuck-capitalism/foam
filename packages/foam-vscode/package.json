@@ -437,6 +437,7 @@
     "remove-markdown": "^0.3.0",
     "replace-ext": "^2.0.0",
     "title-case": "^3.0.2",
+    "turndown": "^7.1.1",
     "unified": "^9.0.0",
     "unist-util-visit": "^2.0.2",
     "yaml": "^1.10.0"
