@@ -177,9 +177,10 @@ export const markdownItWithAgoraInclusion = (md: markdownit) => {
       console.log('DATA', data);
       const links = [];
       for (const node of data) {
+        const markdown = turndownService.turndown(node.content);
         links.push(`<div>
         <div>Uri: ${node['uri']}</div>
-        <div>Content: ${node['content']}</div>
+        <div>Content: ${markdown}</div>
         </div>`);
       }
       return links.join('\n');
